@@ -110,7 +110,7 @@ To run the project, execute the following commands in your terminal:
 
 👤 **Elton Mirona**
 
-- GitHub: [@eMirona-96](https://github.com/Mirona-96)
+- GitHub: [@Mirona-96](https://github.com/Mirona-96)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
