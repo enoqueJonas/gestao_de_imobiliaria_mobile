@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_de_imobiliaria_mobile/onboarding/onboarding_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/start-screen/start_page.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        body: OnBoardingPage()
+        body: LoginScreen()
       ),
     );
   }
