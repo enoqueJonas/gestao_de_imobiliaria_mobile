@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gestao_de_imobiliaria_mobile/forget-password/forget_password_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/onboarding/onboarding_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/start-screen/start_page.dart';
@@ -14,7 +15,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        body: LoginScreen()
+        body: ForgetPasswordScreen()
       ),
     );
   }
