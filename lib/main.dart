@@ -5,7 +5,6 @@ import 'package:gestao_de_imobiliaria_mobile/login/signup_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/onboarding/onboarding_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/start-screen/start_page.dart';
 
-
 void main() {
   runApp(const App());
 }
@@ -25,7 +24,6 @@ class App extends StatelessWidget {
         '/signup': (context) => const SignUp(),
         '/forgetpassword': (context) => const ForgetPasswordScreen(),
       },
-      
     );
   }
 }

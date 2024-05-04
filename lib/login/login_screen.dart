@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_de_imobiliaria_mobile/Models/usuario.dart';
 import 'package:gestao_de_imobiliaria_mobile/SQLite/sqlite.dart';
-import 'package:gestao_de_imobiliaria_mobile/forget-password/forget_password_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/imoveis/imoveis_screen.dart';
-import 'package:gestao_de_imobiliaria_mobile/login/signup_screen.dart';
+
+import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -146,7 +146,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextButton(
                           onPressed: () {
                             //Navegar a pagina de registo (sign up)
-                            Navigator.pushNamed(context, '/signupscreen');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const SignUp()));
                           },
                           child: const Text.rich(
                             TextSpan(
