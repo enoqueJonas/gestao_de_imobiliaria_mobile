@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
 
-class OnBoardingPage extends StatelessWidget {
-  const OnBoardingPage({super.key});
+class OnBoardingScreen extends StatelessWidget {
+  const OnBoardingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,9 @@ class OnBoardingPage extends StatelessWidget {
               SizedBox(
                 width: 200,
                 child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     vertical: 20,

@@ -56,7 +56,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/signupscreen');
+                      },
                       style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
                           vertical: 25,

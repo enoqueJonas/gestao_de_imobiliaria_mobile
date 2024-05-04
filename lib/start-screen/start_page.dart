@@ -1,8 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class StartPage extends StatelessWidget {
-  const StartPage({super.key});
+class StartScreen extends StatefulWidget {
+  const StartScreen({super.key});
 
+  @override
+  State<StartScreen> createState() => _StarScreen();
+    
+}
+
+class _StarScreen extends State<StartScreen> with SingleTickerProviderStateMixin {
+  @override
+  void initState(){
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    Future.delayed(const Duration(seconds: 5), () {
+      Navigator.pushNamed(context, '/onboarding');
+    });
+  }
+
+  @override
+  void dispose() {
+    //super.dispose();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+    overlays: SystemUiOverlay.values);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,5 +59,5 @@ class StartPage extends StatelessWidget {
           ],
         ),
       );
-  }
+  }  
 }

@@ -106,11 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerLeft,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ForgetPasswordScreen()));
+                            Navigator.pushNamed(context, '/forgetpassword');
                           },
                           child: const Text('Esqueceu a sua palavra-passe?',
                               style: TextStyle(
@@ -150,10 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextButton(
                           onPressed: () {
                             //Navegar a pagina de registo (sign up)
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const SignUp()));
+                            Navigator.pushNamed(context, '/signupscreen');
                           },
                           child: const Text.rich(
                             TextSpan(
