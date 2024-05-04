@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_de_imobiliaria_mobile/forget-password/forget_password_screen.dart';
-import 'package:gestao_de_imobiliaria_mobile/onboarding/onboarding_screen.dart';
-import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
-import 'package:gestao_de_imobiliaria_mobile/start-screen/start_page.dart';
+import 'package:gestao_de_imobiliaria_mobile/home/home_screen.dart';
+
 
 void main() {
   runApp(const App());
@@ -13,10 +12,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: ForgetPasswordScreen()
-      ),
+    return MaterialApp(
+      title: 'Kaya App',
+      debugShowCheckedModeBanner: false,
+      routes: {
+        "/" : (context) => HomeScreen()
+      },
+      
     );
   }
 }
