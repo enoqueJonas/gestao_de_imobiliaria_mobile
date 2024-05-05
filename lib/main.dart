@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_de_imobiliaria_mobile/forget-password/forget_password_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/home/home_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/login/signup_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/onboarding/onboarding_screen.dart';
@@ -24,6 +25,7 @@ class App extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUp(),
         '/forgetpassword': (context) => const ForgetPasswordScreen(),
+        '/home': (context) => const HomeScreen(),
       },
       
     );

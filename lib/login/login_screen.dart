@@ -146,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextButton(
                           onPressed: () {
                             //Navegar a pagina de registo (sign up)
-                            Navigator.pushNamed(context, '/signupscreen');
+                            Navigator.pushNamed(context, '/signup');
                           },
                           child: const Text.rich(
                             TextSpan(
@@ -170,7 +170,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/home');
+                          },
                           child: const Text('Registar mais tarde',
                               style: TextStyle(
                                   color: Colors.white,
