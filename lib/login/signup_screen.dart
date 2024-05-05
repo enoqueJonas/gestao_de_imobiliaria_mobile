@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gestao_de_imobiliaria_mobile/Models/usuario.dart';
+import 'package:gestao_de_imobiliaria_mobile/SQLite/sqlite.dart';
 import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
 import 'package:intl/intl.dart';
 
@@ -19,6 +21,7 @@ class _SignUpState extends State<SignUp> {
   final confirmPasswordController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
+  bool agree = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class _SignUpState extends State<SignUp> {
               style: TextStyle(
                   color: Colors.grey,
                   fontWeight: FontWeight.bold,
-                  fontSize: 30),
+                  fontSize: 20),
             ),
             //
             //campo do nome
@@ -58,7 +61,6 @@ class _SignUpState extends State<SignUp> {
                 decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.person),
                     hintText: 'Nome',
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -78,7 +80,6 @@ class _SignUpState extends State<SignUp> {
                 decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.person),
                     hintText: 'Apelido',
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -98,12 +99,12 @@ class _SignUpState extends State<SignUp> {
               decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
-                  prefixIcon: Icon(Icons.calendar_today),
                   hintText: 'Data de Nascimento',
                   border: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(10)),
-                  contentPadding: EdgeInsets.all(20)),
+                  contentPadding: EdgeInsets.all(20),
+                  suffixIcon: Icon(Icons.calendar_today)),
               onTap: () async {
                 final DateTime? pickedDate = await showDatePicker(
                   context: context,
@@ -127,7 +128,7 @@ class _SignUpState extends State<SignUp> {
             TextFormField(
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "Insira o apelidoController";
+                    return "Insira contacto valido";
                   }
                   return null;
                 },
@@ -135,8 +136,7 @@ class _SignUpState extends State<SignUp> {
                 decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.person),
-                    hintText: 'Apelido',
+                    hintText: 'Contacto',
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(10)),
@@ -155,7 +155,6 @@ class _SignUpState extends State<SignUp> {
                 decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.person),
                     hintText: 'Email',
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -175,7 +174,6 @@ class _SignUpState extends State<SignUp> {
                 decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.lock_rounded),
                     hintText: 'Palavra-passe',
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -201,7 +199,6 @@ class _SignUpState extends State<SignUp> {
                 decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.lock_rounded),
                     hintText: 'Confirmar Palavra-passe',
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,
@@ -210,23 +207,52 @@ class _SignUpState extends State<SignUp> {
                     suffixIcon: IconButton(
                         onPressed: null,
                         icon: Icon(Icons.remove_red_eye_rounded)))),
-            const SizedBox(height: 50),
+            //   const SizedBox(height: 50),
+            //
+            CheckboxListTile(
+              title: Text(
+                'Eu concordo com os Termos de Servico e Políticas de Privacidade',
+                style: TextStyle(color: Colors.black),
+              ),
+              controlAffinity: ListTileControlAffinity.leading,
+              value: agree,
+              onChanged: (newValue) {
+                setState(() {
+                  agree = newValue!;
+                });
+              },
+            ),
+
             //
             //botao registar
             SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                     onPressed: () {
-                      /*     if (formKey.currentState!.validate()) {
-                        final db = DatabaseHelper();
+                      if (formKey.currentState!.validate() && agree) {
+                        //cria objecto usuario
+                        var usuario = Usuario(
+                          nomeController.text,
+                          apelidoController.text,
+                          dataNascimentoController.text,
+                          contactoController.text,
+                          emailController.text,
+                          passwordController.text,
+                        );
 
-                        db.registar((Usuario(Nome:))
-                        .whenComplete((){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()))
-                        }
-));
+                        //metodo registar o susario
+                        final db = DatabaseHelper();
+                        db.registar(usuario).then((id) {
+                          if (id != null && id > 0) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginScreen(),
+                              ),
+                            );
+                          }
+                        });
                       }
-                 */
                     },
                     style: TextButton.styleFrom(
                         padding: const EdgeInsets.symmetric(

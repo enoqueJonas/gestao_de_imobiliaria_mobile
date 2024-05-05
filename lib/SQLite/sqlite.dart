@@ -1,6 +1,7 @@
 import 'package:gestao_de_imobiliaria_mobile/Models/usuario.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class DatabaseHelper {
   final databaseName = "imovel.db";
