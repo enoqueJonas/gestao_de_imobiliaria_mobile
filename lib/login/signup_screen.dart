@@ -26,7 +26,8 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+      appBar: AppBar(),
+      body: Center(
       child: SingleChildScrollView(
           child: Form(
         key: formKey,
