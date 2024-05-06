@@ -19,7 +19,7 @@ class App extends StatelessWidget {
       title: 'Kaya App',
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => const StartScreen(),
+        '/': (context) => const SignUp(),
         '/onboarding': (context) => const OnBoardingScreen(),
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUp(),
