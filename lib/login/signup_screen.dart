@@ -242,7 +242,7 @@ class _SignUpState extends State<SignUp> {
                         );
 
                         //metodo registar o susario
-                        final db = DatabaseHelper();
+                        final db = MyDatabase();
                         db.registar(usuario).then((id) {
                           if (id != null && id > 0) {
                             Navigator.pushReplacement(

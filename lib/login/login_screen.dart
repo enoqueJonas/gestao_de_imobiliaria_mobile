@@ -18,7 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool isLoginTrue = false;
 
-  final db = DatabaseHelper();
+  final db = MyDatabase();
 
   login() {
     var usuario = Usuario(emailController.text, '', '', '',
