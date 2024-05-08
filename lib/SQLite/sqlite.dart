@@ -18,6 +18,7 @@ class MyDatabase {
   }
   //variaveis
   final String tableName = 'usuarios';
+  final String colunaIdUsuario = 'idUsuario';
   final String colunaNome = 'nome';
   final String colunaApelido = 'apelido';
   final String colunaDataNascimento = 'dataNascimento';
@@ -34,7 +35,7 @@ class MyDatabase {
       // Path
       String path = directory.path;
       String tabelaUsuarioQuery =
-          "CREATE TABLE usuarios(IdUsuario INTEGER PRIMARY KEY AUTOINCREMENT, $colunaNome TEXT NOT NULL, $colunaApelido TEXT NOT NULL,$colunaDataNascimento DATE NOT NULL, $colunaContacto TEXT NOT NULL, $colunaEmail TEXT NOT NULL, $colunaPassword TEXT NOT NULL)";
+          "CREATE TABLE usuarios($colunaIdUsuario INTEGER PRIMARY KEY, $colunaNome TEXT NOT NULL, $colunaApelido TEXT NOT NULL,$colunaDataNascimento DATE NOT NULL, $colunaContacto TEXT NOT NULL, $colunaEmail TEXT NOT NULL, $colunaPassword TEXT NOT NULL)";
 
       // Criar base de dados
       _database =

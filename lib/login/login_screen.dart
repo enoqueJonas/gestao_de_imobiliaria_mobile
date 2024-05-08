@@ -3,8 +3,6 @@ import 'package:gestao_de_imobiliaria_mobile/Models/usuario.dart';
 import 'package:gestao_de_imobiliaria_mobile/SQLite/sqlite.dart';
 import 'package:gestao_de_imobiliaria_mobile/imoveis/imoveis_screen.dart';
 
-import 'signup_screen.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -21,8 +19,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final db = MyDatabase();
 
   login() {
-    var usuario = Usuario(emailController.text, '', '', '',
-        emailController.text, passwordController.text);
+    var usuario = Usuario(
+        0, '', '', '', '', 'emailController.text', 'passwordController.text');
     var resposta = db.login(usuario);
     if (resposta == true) {
       //se o login der certo

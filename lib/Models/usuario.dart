@@ -1,4 +1,5 @@
 class Usuario {
+  int IdUsuario;
   String Nome;
   String Apelido;
   String DataNascimento;
@@ -6,11 +7,12 @@ class Usuario {
   String Email;
   String Password;
 
-  Usuario(this.Nome, this.Apelido, this.DataNascimento, this.Contacto,
-      this.Email, this.Password);
-  
+  Usuario(this.IdUsuario, this.Nome, this.Apelido, this.DataNascimento,
+      this.Contacto, this.Email, this.Password);
+
   Map<String, dynamic> toMap() {
     return {
+      'idUsuario': IdUsuario,
       'nome': Nome,
       'apelido': Apelido,
       'dataNascimento': DataNascimento,
@@ -21,7 +23,8 @@ class Usuario {
   }
 
   Usuario.fromMap(Map<String, dynamic> map)
-      : Nome = map['nome'],
+      : IdUsuario = map['idUsuario'],
+        Nome = map['nome'],
         Apelido = map['apelido'],
         DataNascimento = map['dataNascimento'],
         Contacto = map['contacto'],
