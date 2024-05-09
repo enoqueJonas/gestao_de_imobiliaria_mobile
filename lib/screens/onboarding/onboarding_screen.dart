@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/login/login_screen.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -7,24 +7,33 @@ class OnBoardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(26, 147, 192, 1),
-      body: SizedBox(
+      body: DecoratedBox(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(
+              'https://images.unsplash.com/photo-1613061538705-01190bb0e3b8?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            ),
+            fit: BoxFit.fill
+          )
+        ),
+      
+        child: SizedBox(
         child: Container(
           margin: const EdgeInsets.all(40),
           child:  Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              //const SizedBox(height: 24),
+
               const Text(
                 'Encontre a Sua Nova Casa',
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 48,
                   color: Colors.white,
                 ),
               ),
-              // SizedBox(height: 24),
+
               const Text(
                 'Olá e seja bem-vindo a KAYA! Estamos animados em tê-lo(a) a bordo para ajudá-lo(a) a encontrar a casa dos seus sonhos. ',
                 textAlign: TextAlign.center,
@@ -33,7 +42,7 @@ class OnBoardingScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              //const SizedBox(height: 80),
+              
               SizedBox(
                 width: 200,
                 child: ElevatedButton(
@@ -73,6 +82,7 @@ class OnBoardingScreen extends StatelessWidget {
           ),
         ),
       ),
+      )
     );
   }
 }
