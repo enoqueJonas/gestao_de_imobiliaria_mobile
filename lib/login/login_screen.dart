@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gestao_de_imobiliaria_mobile/Models/usuario.dart';
 import 'package:gestao_de_imobiliaria_mobile/SQLite/sqlite.dart';
-import 'package:gestao_de_imobiliaria_mobile/imoveis/imoveis_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (resposta == true) {
       //se o login der certo
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ImoveisScreen()));
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
     } else {
       setState(() {
         isLoginTrue = true; //mostra a msg de erro
