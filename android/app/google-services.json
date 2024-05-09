@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "373673004040",
+    "project_id": "gestao-imobiliaria-app",
+    "storage_bucket": "gestao-imobiliaria-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373673004040:android:0b76fa86f22853c1d255bd",
+        "android_client_info": {
+          "package_name": "com.example.gestao_de_imobiliaria_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKWcoRfukr7m2oKQATRl6zwFpFgKiKaiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
