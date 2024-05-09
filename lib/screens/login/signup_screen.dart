@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gestao_de_imobiliaria_mobile/Models/usuario.dart';
-import 'package:gestao_de_imobiliaria_mobile/SQLite/sqlite.dart';
-import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/database/Models/usuario.dart';
+import 'package:gestao_de_imobiliaria_mobile/database/controllers/signup_controller.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/login/login_screen.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -12,14 +14,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final nomeController = TextEditingController();
-  final apelidoController = TextEditingController();
-  final dataNascimentoController = TextEditingController();
-  final contactoController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
-
+  
+  final controller = Get.put(SignUpController());
   final formKey = GlobalKey<FormState>();
   bool _passwordVisivel = false;
   bool _passwordConfirmVisivel = false;
@@ -73,7 +69,8 @@ class _SignUpState extends State<SignUp> {
                 }
                 return null;
               },
-              controller: nomeController,
+              keyboardType: TextInputType.name,
+              controller: controller.nomeController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -103,11 +100,12 @@ class _SignUpState extends State<SignUp> {
             TextFormField(
               validator: (value) {
                 if (value!.isEmpty) {
-                  return "Insira o apelidoController";
+                  return "Insira o apelido";
                 }
                 return null;
               },
-              controller: apelidoController,
+              keyboardType: TextInputType.name,
+              controller: controller.apelidoController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -141,7 +139,8 @@ class _SignUpState extends State<SignUp> {
                 }
                 return null;
               },
-              controller: dataNascimentoController,
+              keyboardType: TextInputType.datetime,
+              controller: controller.dataNascimentoController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -176,7 +175,7 @@ class _SignUpState extends State<SignUp> {
                 if (pickedDate != null && pickedDate != _selectedDate) {
                   setState(() {
                     _selectedDate = pickedDate;
-                    dataNascimentoController.text =
+                    controller.dataNascimentoController.text =
                         DateFormat('dd/MM/yyyy').format(_selectedDate);
                   });
                 }
@@ -192,7 +191,8 @@ class _SignUpState extends State<SignUp> {
                 }
                 return null;
               },
-              controller: contactoController,
+              keyboardType: TextInputType.phone,
+              controller: controller.contactoController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -222,12 +222,15 @@ class _SignUpState extends State<SignUp> {
             //campo do email
             TextFormField(
               validator: (value) {
-                if (value!.isEmpty) {
+                if (value == null || value.trim().isEmpty || !value.contains('@')) {
                   return "Insira Email válido";
                 }
                 return null;
               },
-              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              autocorrect: false,
+              textCapitalization: TextCapitalization.none,
+              controller: controller.emailController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -257,12 +260,12 @@ class _SignUpState extends State<SignUp> {
             //campo do password
             TextFormField(
               validator: (value) {
-                if (value!.isEmpty) {
+                if (value == null || value.trim().length < 8 ) {
                   return "Insira Password válido";
                 }
                 return null;
               },
-              controller: passwordController,
+              controller: controller.passwordController,
               obscureText: !_passwordVisivel,
               decoration: InputDecoration(
                 filled: true,
@@ -305,13 +308,14 @@ class _SignUpState extends State<SignUp> {
               validator: (value) {
                 if (value!.isEmpty) {
                   return "Repita a palavra passe inserida acima";
-                } else if (passwordController.text !=
-                    confirmPasswordController.text) {
+                } else if (controller.passwordController.text !=
+                    controller.confirmPasswordController.text) {
                   return "Palavra passe não correspondente.";
                 }
                 return null;
               },
-              controller: confirmPasswordController,
+              
+              controller: controller.confirmPasswordController,
               obscureText: !_passwordConfirmVisivel,
               decoration: InputDecoration(
                 filled: true,
@@ -369,31 +373,23 @@ class _SignUpState extends State<SignUp> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async{
                   if (formKey.currentState!.validate() && agree) {
+                    
                     //cria objecto usuario
-                    var usuario = Usuario(
-                      nomeController.text,
-                      apelidoController.text,
-                      dataNascimentoController.text,
-                      contactoController.text,
-                      emailController.text,
-                      passwordController.text,
+                    final usuario = Usuario(
+                      nome: controller.nomeController.text.trim(),
+                      apelido: controller.apelidoController.text.trim(),
+                      dataNascimento: controller.dataNascimentoController.text.trim(),
+                      contacto: controller.contactoController.text.trim(),
+                      email: controller.emailController.text.trim(),
+                      password: controller.passwordController.text.trim(),
                     );
 
-                    //metodo registar o susario
-                    final db = MyDatabase();
-                    db.registar(usuario).then((id) {
-                      if (id != null && id > 0) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                        );
-                      }
-                    }
-                  );
+                    SignUpController.instance.signup(usuario);
+
+                    Navigator.pushNamed(context, '/login');
+  
                 }
               },
               style: TextButton.styleFrom(
