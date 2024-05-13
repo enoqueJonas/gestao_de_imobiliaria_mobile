@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gestao_de_imobiliaria_mobile/Models/usuario.dart';
-import 'package:gestao_de_imobiliaria_mobile/SQLite/sqlite.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/home/home_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/login/signup_screen.dart';
 
