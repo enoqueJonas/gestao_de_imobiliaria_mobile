@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
 
 import 'package:gestao_de_imobiliaria_mobile/screens/home/category_widget.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/home/imove_item_widget.dart';
@@ -28,7 +30,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      drawer: const Drawer(
+      drawer:  Drawer(
         backgroundColor: const Color.fromRGBO(26, 147, 192, 1),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,9 +70,14 @@ class HomeScreen extends StatelessWidget {
                       Icons.person,
                       color: Colors.white,
                     ),
-                    title: Text(
-                      "Perfil",
-                      style: TextStyle(color: Colors.white),
+                    title: TextButton(
+                      onPressed: () {
+                      }
+                      ,
+                      child: Text(
+                        "Perfil",
+                      style: TextStyle(color: Colors.white)
+                      ),
                     ),
                   ),
                 ),
@@ -83,10 +90,22 @@ class HomeScreen extends StatelessWidget {
                   Icons.logout,
                   color: Colors.white,
                 ),
-                title: Text(
-                  "Logout",
-                  style: TextStyle(color: Colors.white),
-                ),
+                title: TextButton(
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                        );
+                      }
+                      ,
+                      child: Text(
+                        "Perfil",
+                      style: TextStyle(color: Colors.white)
+                      ),
+                    ),
               ),
             )
           ],

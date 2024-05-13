@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/login/login_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -47,7 +47,11 @@ class OnBoardingScreen extends StatelessWidget {
                 width: 200,
                 child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/login');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                  );
                 },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(

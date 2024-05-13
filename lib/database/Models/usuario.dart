@@ -5,7 +5,7 @@ class Usuario {
   final String dataNascimento;
   final String contacto;
   final String email;
-  final String password;
+
 
   const Usuario({
     this.id,
@@ -14,7 +14,6 @@ class Usuario {
     required this.dataNascimento, 
     required this.contacto,
     required this.email, 
-    required this.password
   }
 );
   
@@ -25,7 +24,6 @@ class Usuario {
       'DataNascimento' : dataNascimento,
       'Contacto' : contacto,
       'Email' : email,
-      'Password' : password
     };
   }
 

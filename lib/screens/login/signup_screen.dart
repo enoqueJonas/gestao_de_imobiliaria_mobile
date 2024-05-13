@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gestao_de_imobiliaria_mobile/database/Models/usuario.dart';
-import 'package:gestao_de_imobiliaria_mobile/database/controllers/signup_controller.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/login/login_screen.dart';
-import 'package:get/get.dart';
+import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+
+final _firebase = FirebaseAuth.instance;
+final _firebaseFirestore = FirebaseFirestore.instance;
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -14,12 +17,56 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  
-  final controller = Get.put(SignUpController());
-  final formKey = GlobalKey<FormState>();
+  var _nome = '';
+  var _apelido = '';
+  var _dataNascimento = '';
+  var _contacto = '';
+  var _email = '';
+  var _password = '';
+  var _confirmPassword = '';
+
+  final _formKey = GlobalKey<FormState>();
   bool _passwordVisivel = false;
   bool _passwordConfirmVisivel = false;
   bool agree = false;
+
+  void _submit() async{
+    final isValid = _formKey.currentState!.validate();
+
+    if(isValid) {
+      _formKey.currentState!.save();
+      try {
+        //Guardar o email e o password no Firebase auth
+        final userCredentials = await _firebase.createUserWithEmailAndPassword(
+          email: _email, 
+          password: _password
+        );
+
+        final user = Usuario(
+          id: userCredentials.user!.uid,
+          nome: _nome,
+          apelido: _apelido,
+          dataNascimento: _dataNascimento,
+          contacto: _contacto,
+          email: _email,
+        );
+        
+        //Guardar os restantes dados Firebase firestore
+        _firebaseFirestore.collection('Usuarios').add(user.toJson());
+      }
+      on FirebaseAuthException catch (error) {
+        if(error.code == 'email-already-in-use') {
+
+        }
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error.message ?? "Autenticação falhou.")
+          )
+        );
+      }
+    }
+  }
   
   @override
   void initState() {
@@ -38,7 +85,7 @@ class _SignUpState extends State<SignUp> {
           horizontal: 20
         ),  
         child: Form(
-        key: formKey,
+        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -70,7 +117,6 @@ class _SignUpState extends State<SignUp> {
                 return null;
               },
               keyboardType: TextInputType.name,
-              controller: controller.nomeController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -91,9 +137,12 @@ class _SignUpState extends State<SignUp> {
                   borderSide: const BorderSide(color: Colors.red),
                   borderRadius: BorderRadius.circular(10)
                 ),
-                contentPadding: const EdgeInsets.all(20)
-              )
-            ),
+                contentPadding: const EdgeInsets.all(20), 
+              ),
+              onSaved: (value) {
+                  _nome = value!;
+                }
+          ),
             const SizedBox(height: 10),
             //
             //campo do apelido
@@ -105,7 +154,6 @@ class _SignUpState extends State<SignUp> {
                 return null;
               },
               keyboardType: TextInputType.name,
-              controller: controller.apelidoController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -127,7 +175,11 @@ class _SignUpState extends State<SignUp> {
                   borderRadius: BorderRadius.circular(10)
                 ),
                 contentPadding: EdgeInsets.all(20)
-              )
+              ),
+              onSaved: (value) {
+                  _apelido = value!;
+                }
+              
             ),
             const SizedBox(height: 10),
             //
@@ -140,7 +192,6 @@ class _SignUpState extends State<SignUp> {
                 return null;
               },
               keyboardType: TextInputType.datetime,
-              controller: controller.dataNascimentoController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -175,8 +226,7 @@ class _SignUpState extends State<SignUp> {
                 if (pickedDate != null && pickedDate != _selectedDate) {
                   setState(() {
                     _selectedDate = pickedDate;
-                    controller.dataNascimentoController.text =
-                        DateFormat('dd/MM/yyyy').format(_selectedDate);
+                    _dataNascimento = DateFormat('dd/MM/yyyy').format(_selectedDate);
                   });
                 }
               },
@@ -192,7 +242,6 @@ class _SignUpState extends State<SignUp> {
                 return null;
               },
               keyboardType: TextInputType.phone,
-              controller: controller.contactoController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -215,8 +264,11 @@ class _SignUpState extends State<SignUp> {
                 ),
                 suffixIcon: const Icon(Icons.phone_android_sharp, color: Colors.grey,),
                 contentPadding: const EdgeInsets.all(20)
-                )
-              ),
+                ),
+                onSaved: (value) {
+                  _contacto = value!;
+                }
+            ),         
             const SizedBox(height: 10),
             //
             //campo do email
@@ -230,7 +282,6 @@ class _SignUpState extends State<SignUp> {
               keyboardType: TextInputType.emailAddress,
               autocorrect: false,
               textCapitalization: TextCapitalization.none,
-              controller: controller.emailController,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -253,8 +304,12 @@ class _SignUpState extends State<SignUp> {
                 ),
                 suffixIcon: const Icon(Icons.email_outlined, color: Colors.grey),
                 contentPadding: const EdgeInsets.all(20)
-                )
+                ),
+                onSaved: (value) {
+                  _email = value!;
+                }
               ),
+            
             const SizedBox(height: 10),
             //
             //campo do password
@@ -265,7 +320,6 @@ class _SignUpState extends State<SignUp> {
                 }
                 return null;
               },
-              controller: controller.passwordController,
               obscureText: !_passwordVisivel,
               decoration: InputDecoration(
                 filled: true,
@@ -299,7 +353,10 @@ class _SignUpState extends State<SignUp> {
                   color: _passwordVisivel ? Colors.black : Colors.grey
                   )
                 )
-              )
+              ),
+              onSaved: (value) {
+                _password = value!;
+              } 
             ),
             const SizedBox(height: 10),
             //
@@ -308,14 +365,13 @@ class _SignUpState extends State<SignUp> {
               validator: (value) {
                 if (value!.isEmpty) {
                   return "Repita a palavra passe inserida acima";
-                } else if (controller.passwordController.text !=
-                    controller.confirmPasswordController.text) {
+                } else if (_password !=
+                    _confirmPassword) {
                   return "Palavra passe não correspondente.";
                 }
                 return null;
               },
               
-              controller: controller.confirmPasswordController,
               obscureText: !_passwordConfirmVisivel,
               decoration: InputDecoration(
                 filled: true,
@@ -349,7 +405,11 @@ class _SignUpState extends State<SignUp> {
                     color: _passwordConfirmVisivel ? Colors.black : Colors.grey
                   )
                 )
-              )
+              ),
+              onSaved: (value) {
+                _confirmPassword = value!;
+              }
+            
             ),
             const SizedBox(height: 10),
             CheckboxListTile(
@@ -373,25 +433,8 @@ class _SignUpState extends State<SignUp> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () async{
-                  if (formKey.currentState!.validate() && agree) {
-                    
-                    //cria objecto usuario
-                    final usuario = Usuario(
-                      nome: controller.nomeController.text.trim(),
-                      apelido: controller.apelidoController.text.trim(),
-                      dataNascimento: controller.dataNascimentoController.text.trim(),
-                      contacto: controller.contactoController.text.trim(),
-                      email: controller.emailController.text.trim(),
-                      password: controller.passwordController.text.trim(),
-                    );
-
-                    SignUpController.instance.signup(usuario);
-
-                    Navigator.pushNamed(context, '/login');
-  
-                }
-              },
+                //Subtmeter
+                onPressed: _submit,
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
                   vertical: 25,
@@ -419,7 +462,11 @@ class _SignUpState extends State<SignUp> {
               child: TextButton(
                 onPressed: () {
                   //Navegar a pagina de login (login_screen)
-                  Navigator.pushNamed(context, '/login');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                  );
                 },
                 child: const Text.rich(
                   TextSpan(

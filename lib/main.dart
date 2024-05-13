@@ -1,11 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
 import 'database/firebase_options.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/forget-password/forget_password_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/home/home_screen.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/login/login_screen.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/login/signup_screen.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/onboarding/onboarding_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/start-screen/start_page.dart';
 
 
@@ -27,14 +25,25 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Kaya App',
       debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (context) => const StartScreen(),
-        '/onboarding': (context) => const OnBoardingScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/signup': (context) => const SignUp(),
-        '/forgetpassword': (context) => const ForgetPasswordScreen(),
-        '/home': (context) => const HomeScreen(),
-      },
+
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(), 
+        builder: (context, AsyncSnapshot<User?> snapshot){ 
+
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return const StartScreen();
+          }
+
+          if(snapshot.hasData) {
+            //Direcionar para home se o user tiver feito o login
+            return const HomeScreen();
+          } else {
+            //Direcionar para home O login se nao tiver feito o login
+            return const LoginScreen();
+          }
+      }),
+
+     
     );
   }
 }

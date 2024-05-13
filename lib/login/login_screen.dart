@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gestao_de_imobiliaria_mobile/Models/usuario.dart';
 import 'package:gestao_de_imobiliaria_mobile/SQLite/sqlite.dart';
-import 'package:gestao_de_imobiliaria_mobile/imoveis/imoveis_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/home/home_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/login/signup_screen.dart';
+
+
+final _firebase = FirebaseAuth.instance;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,28 +16,39 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
 
-  bool isLoginTrue = false;
+  var _email = '';
+  var _password = '';
 
-  final db = MyDatabase();
 
-  login() {
-    var usuario = Usuario(
-        0, '', '', '', '', 'emailController.text', 'passwordController.text');
-    var resposta = db.login(usuario);
-    if (resposta == true) {
-      //se o login der certo
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ImoveisScreen()));
-    } else {
-      setState(() {
-        isLoginTrue = true; //mostra a msg de erro
-      });
+  final _formKey = GlobalKey<FormState>();
+
+  void _submit() async{
+    final isValid = _formKey.currentState!.validate();
+
+    if(isValid) {
+      _formKey.currentState!.save();
+      try {
+        //Efectuar login
+        final userCredentials = await _firebase..signInWithEmailAndPassword(
+          email: _email, 
+          password: _password
+        );
+
+      }
+      on FirebaseAuthException catch (error) {
+        if(error.code == 'email-already-in-use') {
+
+        }
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error.message ?? "Autenticação falhou.")
+          )
+        );
+      }
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +84,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             return null;
                           },
-                          controller: emailController,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -77,7 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               border: OutlineInputBorder(
                                   borderSide: BorderSide.none,
                                   borderRadius: BorderRadius.circular(10)),
-                              contentPadding: EdgeInsets.all(20))),
+                              contentPadding: EdgeInsets.all(20)),
+                              onSaved: (value) {
+                                _email = value!;
+                              }
+                                            
+                            ),
                       const SizedBox(height: 10),
                       TextFormField(
                           validator: (value) {
@@ -86,7 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             return null;
                           },
-                          controller: passwordController,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -98,7 +117,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               contentPadding: EdgeInsets.all(20),
                               suffixIcon: IconButton(
                                   onPressed: null,
-                                  icon: Icon(Icons.remove_red_eye_rounded)))),
+                                  icon: Icon(Icons.remove_red_eye_rounded))),
+                                  onSaved: (value) {
+                                _password = value!;
+                              }
+                                  
+                                ),
                       const SizedBox(height: 15),
                       Align(
                         alignment: Alignment.centerLeft,
@@ -121,30 +145,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                              onPressed: () {
-                                login();
-                              },
-                              style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 25,
-                                    horizontal: 40,
-                                  ),
-                                  backgroundColor:
-                                      const Color.fromRGBO(26, 147, 192, 1),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(40))),
-                              child: const Text('Entrar',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16)))),
+                            onPressed: _submit,
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 25,
+                                horizontal: 40,
+                              ),
+                              backgroundColor:
+                                  const Color.fromRGBO(26, 147, 192, 1),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40))),
+                            child: const Text('Entrar',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16)))),
                       const SizedBox(height: 40),
                       Align(
                         alignment: Alignment.center,
                         child: TextButton(
                           onPressed: () {
                             //Navegar a pagina de registo (sign up)
-                            Navigator.pushNamed(context, '/signup');
+                            Navigator.of(context).push(
+                                MaterialPageRoute(
+                                builder: (context) => const SignUp(),
+                              ),
+                            );
                           },
                           child: const Text.rich(
                             TextSpan(
@@ -169,7 +195,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.center,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/home');
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                              builder: (context) => const HomeScreen(),
+                            ),
+                          );
                           },
                           child: const Text('Registar mais tarde',
                               style: TextStyle(
@@ -181,12 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decorationColor: Colors.white)),
                         ),
                       ),
-                      isLoginTrue
-                          ? const Text(
-                              "Email ou palavra passe incorrectos",
-                              style: TextStyle(color: Colors.red),
-                            )
-                          : const SizedBox(),
+                      
                     ],
                   ))
                 ],

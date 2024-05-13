@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/onboarding/onboarding_screen.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -15,7 +16,11 @@ class _StarScreen extends State<StartScreen> with SingleTickerProviderStateMixin
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Future.delayed(const Duration(seconds: 5), () {
-      Navigator.pushNamed(context, '/onboarding');
+      Navigator.of(context).push(
+          MaterialPageRoute(
+          builder: (context) => const OnBoardingScreen(),
+        ),
+      );
     });
   }
 
@@ -51,7 +56,7 @@ class _StarScreen extends State<StartScreen> with SingleTickerProviderStateMixin
             Text(
               'KAYA',
               style: TextStyle(
-                fontSize: 50,
+                fontSize: 36,
                 color: Colors.white,
                 fontWeight: FontWeight.bold
               ),
