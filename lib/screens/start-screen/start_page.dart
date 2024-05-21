@@ -26,7 +26,7 @@ class _StarScreen extends State<StartScreen> with SingleTickerProviderStateMixin
 
   @override
   void dispose() {
-    //super.dispose();
+    super.dispose();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
     overlays: SystemUiOverlay.values);
   }
