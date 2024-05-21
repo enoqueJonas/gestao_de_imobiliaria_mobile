@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
-import 'database/firebase_options.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/home/home_screen.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/start-screen/start_page.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/home_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/login_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/start_page.dart';
+import 'firebase_options.dart';
 
 
 void main() async {

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gestao_de_imobiliaria_mobile/database/Models/usuario.dart';
-import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/login_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

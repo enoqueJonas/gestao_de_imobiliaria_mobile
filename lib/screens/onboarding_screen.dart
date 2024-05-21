@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/login_screen.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});

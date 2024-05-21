@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gestao_de_imobiliaria_mobile/login/login_screen.dart';
-
-import 'package:gestao_de_imobiliaria_mobile/screens/home/category_widget.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/home/imove_item_widget.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/login_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/widgets/category_widget.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/widgets/imove_item_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

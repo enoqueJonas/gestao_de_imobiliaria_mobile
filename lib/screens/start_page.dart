@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/onboarding/onboarding_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/onboarding_screen.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});

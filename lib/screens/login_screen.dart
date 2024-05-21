@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/home/home_screen.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/login/signup_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/home_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/signup_screen.dart';
 
 
 final _firebase = FirebaseAuth.instance;

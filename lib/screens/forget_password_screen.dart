@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gestao_de_imobiliaria_mobile/screens/login/signup_screen.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/signup_screen.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
