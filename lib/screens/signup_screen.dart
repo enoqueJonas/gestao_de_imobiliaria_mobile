@@ -53,6 +53,13 @@ class _SignUpState extends State<SignUp> {
         
         //Guardar os restantes dados Firebase firestore
         _firebaseFirestore.collection('Usuarios').add(user.toJson());
+
+          Navigator.of(context).push(
+              MaterialPageRoute(
+              builder: (context) => const LoginScreen(),
+            ),
+          );
+
       }
       on FirebaseAuthException catch (error) {
         if(error.code == 'email-already-in-use') {
@@ -61,6 +68,7 @@ class _SignUpState extends State<SignUp> {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
+            backgroundColor: Colors.red,
             content: Text(error.message ?? "Autenticação falhou.")
           )
         );
@@ -219,11 +227,11 @@ class _SignUpState extends State<SignUp> {
                 final DateTime? pickedDate = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
-                  firstDate: DateTime(1900),
+                  firstDate: DateTime(1950),
                   lastDate: DateTime.now(),
                 );
                 var _selectedDate;
-                if (pickedDate != null && pickedDate != _selectedDate) {
+                if (pickedDate != null) {
                   setState(() {
                     _selectedDate = pickedDate;
                     _dataNascimento = DateFormat('dd/MM/yyyy').format(_selectedDate);
@@ -437,8 +445,7 @@ class _SignUpState extends State<SignUp> {
                 onPressed: _submit,
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 25,
-                  horizontal: 40,
+                  vertical: 15,
                 ),
                 backgroundColor: const Color.fromRGBO(26, 147, 192, 1),
                 shape: RoundedRectangleBorder(

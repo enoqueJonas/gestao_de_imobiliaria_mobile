@@ -15,7 +15,7 @@ class _StarScreen extends State<StartScreen> with SingleTickerProviderStateMixin
   void initState(){
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).push(
           MaterialPageRoute(
           builder: (context) => const OnBoardingScreen(),
@@ -23,14 +23,14 @@ class _StarScreen extends State<StartScreen> with SingleTickerProviderStateMixin
       );
     });
   }
-
+/*
   @override
   void dispose() {
     super.dispose();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
     overlays: SystemUiOverlay.values);
   }
-  
+  */
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,7 +56,7 @@ class _StarScreen extends State<StartScreen> with SingleTickerProviderStateMixin
             Text(
               'KAYA',
               style: TextStyle(
-                fontSize: 36,
+                fontSize: 28,
                 color: Colors.white,
                 fontWeight: FontWeight.bold
               ),

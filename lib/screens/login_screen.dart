@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/forget_password_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/home_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/signup_screen.dart';
 
@@ -17,7 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   var _email = '';
   var _password = '';
-
+  bool _passwordVisivel = false;
+  bool _passwordConfirmVisivel = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -28,11 +30,16 @@ class _LoginScreenState extends State<LoginScreen> {
       _formKey.currentState!.save();
       try {
         //Efectuar login
-        final userCredentials = await _firebase..signInWithEmailAndPassword(
+        final userCredentials = await _firebase.signInWithEmailAndPassword(
           email: _email, 
           password: _password
         );
 
+        Navigator.of(context).push(
+              MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
+            ),
+          );
       }
       on FirebaseAuthException catch (error) {
         if(error.code == 'email-already-in-use') {
@@ -58,7 +65,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   fit: BoxFit.fill)),
           child: SizedBox.expand(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(50),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 20
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,11 +78,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 48),
+                        fontSize: 36),
                   ),
                   const SizedBox(height: 60),
                   Form(
-                      child: Column(
+                    key: _formKey,
+                    child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       TextFormField(
@@ -88,45 +99,83 @@ class _LoginScreenState extends State<LoginScreen> {
                               prefixIcon: Icon(Icons.person),
                               hintText: 'Email',
                               border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(10)),
+                                borderSide: const BorderSide(color: Color.fromARGB(255, 204, 204, 204)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Color.fromARGB(255, 204, 204, 204)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: const Color.fromRGBO(26, 147, 192, 1)),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.red),
+                                borderRadius: BorderRadius.circular(10)
+                              ),
                               contentPadding: EdgeInsets.all(20)),
                               onSaved: (value) {
-                                _email = value!;
-                              }
-                                            
+                                _email = value! ?? '';
+                              }                          
                             ),
                       const SizedBox(height: 10),
                       TextFormField(
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Insira Password válido";
-                            }
-                            return null;
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Insira Password válido";
+                          }
+                          return null;
+                        },
+                        obscureText: !_passwordVisivel,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          prefixIcon: Icon(Icons.lock_rounded),
+                          hintText: 'Palavra-passe',
+                          border: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Color.fromARGB(255, 204, 204, 204)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Color.fromARGB(255, 204, 204, 204)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: const Color.fromRGBO(26, 147, 192, 1)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          contentPadding: EdgeInsets.all(20),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                            setState(() {
+                              _passwordVisivel = !_passwordVisivel;
+                            });
                           },
-                          decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Colors.white,
-                              prefixIcon: Icon(Icons.lock_rounded),
-                              hintText: 'Palavra-passe',
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(10)),
-                              contentPadding: EdgeInsets.all(20),
-                              suffixIcon: IconButton(
-                                  onPressed: null,
-                                  icon: Icon(Icons.remove_red_eye_rounded))),
-                                  onSaved: (value) {
-                                _password = value!;
-                              }
-                                  
-                                ),
+                          icon: Icon(
+                            _passwordVisivel ? Icons.visibility : Icons.visibility_off,
+                            color: _passwordVisivel ? Colors.black : Colors.grey
+                            )
+                          ),
+                        ),
+                        onSaved: (value) {
+                          _password = value!;
+                        }
+                      ),
                       const SizedBox(height: 15),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/forgetpassword');
+                             Navigator.of(context).push(
+                              MaterialPageRoute(
+                              builder: (context) => const ForgetPasswordScreen(),
+                            )
+                          );
                           },
                           child: const Text('Esqueceu a sua palavra-passe?',
                               style: TextStyle(
@@ -139,15 +188,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       //botao login
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 30),
                       SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: _submit,
                             style: TextButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
-                                vertical: 25,
-                                horizontal: 40,
+                                vertical: 15,
                               ),
                               backgroundColor:
                                   const Color.fromRGBO(26, 147, 192, 1),
