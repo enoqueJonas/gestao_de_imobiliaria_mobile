@@ -20,7 +20,7 @@ class CategoryWidget extends StatelessWidget {
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 15,
                     horizontal: 30,
                   ),
                   backgroundColor: const Color.fromRGBO(26, 147, 192, 1),
@@ -45,7 +45,7 @@ class CategoryWidget extends StatelessWidget {
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 15,
                     horizontal: 35,
                   ),        
                   shape: RoundedRectangleBorder(
@@ -69,7 +69,7 @@ class CategoryWidget extends StatelessWidget {
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 15,
                     horizontal: 35,
                   ),        
                   shape: RoundedRectangleBorder(

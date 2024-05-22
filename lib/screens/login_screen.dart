@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   void _submit() async{
-    final isValid = _formKey.currentState!.validate();
+    final isValid = _formKey.currentState?.validate() ?? false;
 
     if(isValid) {
       _formKey.currentState!.save();
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               contentPadding: EdgeInsets.all(20)),
                               onSaved: (value) {
-                                _email = value! ?? '';
+                                _email = value ?? '';
                               }                          
                             ),
                       const SizedBox(height: 10),
@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         onSaved: (value) {
-                          _password = value!;
+                          _password = value ?? '';
                         }
                       ),
                       const SizedBox(height: 15),

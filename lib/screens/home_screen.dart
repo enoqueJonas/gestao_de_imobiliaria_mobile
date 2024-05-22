@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                 Padding(
+                 const Padding(
                   padding: EdgeInsets.only(left: 25.0),
                   child: ListTile(
                     leading: Icon(
@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(left: 25.0),
                   child: ListTile(
                     leading: Icon(
@@ -70,9 +70,7 @@ class HomeScreen extends StatelessWidget {
                       color: Colors.white,
                     ),
                     title: TextButton(
-                      onPressed: () {
-                      }
-                      ,
+                      onPressed: () {},
                       child: Text(
                         "Perfil",
                       style: TextStyle(color: Colors.white)
@@ -101,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                       }
                       ,
                       child: Text(
-                        "Perfil",
+                        "Sair",
                       style: TextStyle(color: Colors.white)
                       ),
                     ),
@@ -167,8 +165,8 @@ class HomeScreen extends StatelessWidget {
 
           const CategoryWidget(),
 
-          const ImovelItemWidget(),
-          const ImovelItemWidget(),
+          //const ImovelItemWidget(),
+          //const ImovelItemWidget(),
         ],
       )
     );
