@@ -6,11 +6,9 @@ import 'package:gestao_de_imobiliaria_mobile/screens/login_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/start_page.dart';
 import 'firebase_options.dart';
 
-
 void main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -22,12 +20,8 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Kaya App',
-      debugShowCheckedModeBanner: false,
-
-      home: const LoginScreen()
-      /*
+    return MaterialApp(title: 'Kaya App', debugShowCheckedModeBanner: false, home: const LoginScreen()
+        /*
       StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(), 
         builder: (context, AsyncSnapshot<User?> snapshot){ 
@@ -47,7 +41,6 @@ class App extends StatelessWidget {
       }),
       */
 
-     
-    );
+        );
   }
 }

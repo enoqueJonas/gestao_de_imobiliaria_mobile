@@ -7,22 +7,22 @@ class StartScreen extends StatefulWidget {
 
   @override
   State<StartScreen> createState() => _StarScreen();
-    
 }
 
 class _StarScreen extends State<StartScreen> with SingleTickerProviderStateMixin {
   @override
-  void initState(){
+  void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).push(
-          MaterialPageRoute(
+        MaterialPageRoute(
           builder: (context) => const OnBoardingScreen(),
         ),
       );
     });
   }
+
 /*
   @override
   void dispose() {
@@ -34,35 +34,26 @@ class _StarScreen extends State<StartScreen> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors:[
-              Color.fromRGBO(8, 146, 192, 0.87),
-              Color.fromRGBO(26, 147, 192, 1),
-            ]
+      decoration: const BoxDecoration(
+          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [
+        Color.fromRGBO(8, 146, 192, 0.87),
+        Color.fromRGBO(26, 147, 192, 1),
+      ])),
+      alignment: Alignment.center,
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.home,
+            color: Colors.white,
+            size: 80,
+          ),
+          Text(
+            'KAYA',
+            style: TextStyle(fontSize: 28, color: Colors.white, fontWeight: FontWeight.bold),
           )
-        ),
-        alignment: Alignment.center,
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.home,
-              color: Colors.white,
-              size: 80,
-            ),
-            Text(
-              'KAYA',
-              style: TextStyle(
-                fontSize: 28,
-                color: Colors.white,
-                fontWeight: FontWeight.bold
-              ),
-            )
-          ],
-        ),
-      );
-  }  
+        ],
+      ),
+    );
+  }
 }
