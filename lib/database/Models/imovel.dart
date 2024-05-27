@@ -57,7 +57,7 @@ class Imovel {
     };
   }
 
-  factory Imovel.fromMap(Map<String, dynamic> map) {
+  factory Imovel.fromJson(Map<String, dynamic> map) {
     return Imovel(
       id: map['id'],
       tipo: map['tipo'],
@@ -70,7 +70,7 @@ class Imovel {
       metrosQuadrados: map['metrosQuadrados'],
       andar: map['andar'],
       preco: map['preco'],
-      mesesArrendamento: map['messesArrendamento'],
+      mesesArrendamento: map['mesesArrendamento'],
       facilidades: List<String>.from(map['facilidades']),
       proximidades: List<String>.from(map['proximidades']),
       images: List<String>.from(map['images']),

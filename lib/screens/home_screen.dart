@@ -4,6 +4,7 @@ import 'package:gestao_de_imobiliaria_mobile/screens/register_property_screen.da
 import 'package:gestao_de_imobiliaria_mobile/screens/login_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/widgets/category_widget.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/widgets/imove_item_widget.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/widgets/property_list_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -82,7 +83,7 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       title: Text(
-                        '${user!.email}',
+                        '${user != null ? user!.email : 'Home' }',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -186,6 +187,7 @@ class HomeScreen extends StatelessWidget {
 
             //const ImovelItemWidget(),
             //const ImovelItemWidget(),
+            PropertyListWidget(),
           ],
         ));
   }

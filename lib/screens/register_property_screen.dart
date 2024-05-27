@@ -73,9 +73,10 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
   Future<void> _registerProperty() async {
     try {
       final User? user = FirebaseAuth.instance.currentUser;
-      setState(() {
+      /*setState(() {
         _isUploading = true; // Set to true when starting upload
       });
+      */
 
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
@@ -91,10 +92,11 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
         await FirebaseFirestore.instance
             .collection('user_imoveis')
             .add(_imovel.toJson());
-
+        /*
         setState(() {
           _isUploading = false; // Set back to false when upload is complete
         });
+        */
 
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -308,10 +310,12 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
                 ),
               ),
             ),
+            /*
             if (_isUploading) // Show the loading indicator
               Center(
                 child: CircularProgressIndicator(),
               ),
+            */
           ],
         ));
   }

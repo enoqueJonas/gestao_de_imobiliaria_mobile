@@ -199,7 +199,7 @@ class _SignUpState extends State<SignUp> {
                           lastDate: DateTime.now(),
                         );
                         var _selectedDate;
-                        if (pickedDate != null) {
+                        if (pickedDate != null && pickedDate != _selectedDate) {
                           setState(() {
                             _selectedDate = pickedDate;
                             _dataNascimento = DateFormat('dd/MM/yyyy').format(_selectedDate);
