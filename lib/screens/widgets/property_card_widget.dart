@@ -27,7 +27,9 @@ class PropertyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return InkWell (
+    onTap: onTap,
+    child: Card(
       margin: EdgeInsets.all(10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,6 +60,6 @@ class PropertyCard extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/property_details_screen.dart';
 import 'property_card_widget.dart';
 import 'package:gestao_de_imobiliaria_mobile/database/Models/imovel.dart';
 
@@ -38,7 +39,15 @@ class PropertyListWidget extends StatelessWidget {
               beds: property.quartos,
               bathrooms: property.casaBanhos,
               squareMeters: property.metrosQuadrados,
-              mesesArrendamento: property.mesesArrendamento
+              mesesArrendamento: property.mesesArrendamento,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PropertyDetailScreen(property: property),
+                  ),
+                );
+              },
             );
           },
         );
