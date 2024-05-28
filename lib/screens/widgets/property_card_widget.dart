@@ -11,6 +11,7 @@ class PropertyCard extends StatelessWidget {
   final int bathrooms;
   final int squareMeters;
   final int mesesArrendamento;
+  final VoidCallback onTap;
 
   const PropertyCard({
     required this.imageUrl,
@@ -21,6 +22,7 @@ class PropertyCard extends StatelessWidget {
     required this.bathrooms,
     required this.squareMeters,
     required this.mesesArrendamento,
+    required this.onTap,
   });
 
   @override
