@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                       title: Text(
-                        '${user != null ? user!.email : 'Home' }',
+                        '${user != null ? user!.email : 'Visitante' }',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -100,20 +100,6 @@ class HomeScreen extends StatelessWidget {
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () => _navigateToRegisterProperty(context),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 25.0),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
-                      title: TextButton(
-                        onPressed: () {},
-                        child: Text("Perfil",
-                            style: TextStyle(color: Colors.white)),
-                      ),
                     ),
                   ),
                 ],

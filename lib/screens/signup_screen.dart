@@ -29,6 +29,7 @@ class _SignUpState extends State<SignUp> {
   bool _passwordConfirmVisivel = false;
   bool agree = false;
 
+
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
 
@@ -191,7 +192,10 @@ class _SignUpState extends State<SignUp> {
                               borderSide: const BorderSide(color: Colors.red), borderRadius: BorderRadius.circular(10)),
                           contentPadding: const EdgeInsets.all(20),
                           suffixIcon: const Icon(Icons.calendar_today, color: Colors.grey)),
+                          controller: TextEditingController(text: _dataNascimento),
                       onTap: () async {
+                        // Prevents the keyboard from showing up
+                        FocusScope.of(context).requestFocus(new FocusNode());
                         final DateTime? pickedDate = await showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
@@ -203,6 +207,7 @@ class _SignUpState extends State<SignUp> {
                           setState(() {
                             _selectedDate = pickedDate;
                             _dataNascimento = DateFormat('dd/MM/yyyy').format(_selectedDate);
+                            
                           });
                         }
                       },

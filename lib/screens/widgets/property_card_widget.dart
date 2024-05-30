@@ -4,25 +4,31 @@ import 'package:flutter/material.dart';
 
 class PropertyCard extends StatelessWidget {
   final String imageUrl;
-  final String title;
-  final String location;
-  final int price;
-  final int beds;
-  final int bathrooms;
-  final int squareMeters;
-  final int mesesArrendamento;
+  final String titulo;
+  final String provincia;
+  final String localizacao;
+  String? descricao;
+  final int preco;
+  final int quartos;
+  final int casasBanho;
+  int? andar;
+  final int metrosQuadrados;
+  int? mesesArrendamento;
   final VoidCallback onTap;
 
-  const PropertyCard({
+  PropertyCard({
     required this.imageUrl,
-    required this.title,
-    required this.location,
-    required this.price,
-    required this.beds,
-    required this.bathrooms,
-    required this.squareMeters,
-    required this.mesesArrendamento,
+    required this.titulo,
+    required this.localizacao,
+    required this.provincia,
+    required this.preco,
+    required this.quartos,
+    required this.casasBanho,
+    required this.metrosQuadrados,
     required this.onTap,
+    this.mesesArrendamento,
+    this.descricao,
+    this.andar
   });
 
   @override
@@ -40,19 +46,59 @@ class PropertyCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                Text(location, style: TextStyle(fontSize: 16, color: Colors.grey)),
-                Text('\$${price.toString()}', style: TextStyle(fontSize: 18, color: Colors.green)),
+                Text(titulo, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 Row(
                   children: [
-                    Icon(Icons.bed, color: Colors.grey),
-                    Text(beds.toString()),
-                    SizedBox(width: 10),
-                    Icon(Icons.bathtub, color: Colors.grey),
-                    Text(bathrooms.toString()),
-                    SizedBox(width: 10),
-                    Icon(Icons.square_foot, color: Colors.grey),
-                    Text('${squareMeters.toString()} m²'),
+                    Icon(Icons.location_on, color: Color.fromRGBO(26, 147, 192, 1)),
+                    Text('${localizacao} - ${provincia}', style: TextStyle(fontSize: 16, color: Colors.grey)),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [                                    
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '${preco.toString()} MT',
+                            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                          TextSpan(
+                            text: '/mês',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              )
+                          ),
+                        ],
+                      ),
+                    ),
+                    Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                      Row(
+                        children: [
+                          Icon(Icons.bathtub, color: Color.fromRGBO(26, 147, 192, 1)),
+                          SizedBox(width: 3),
+                          Text('${casasBanho.toString()}', style: TextStyle(color: Colors.grey)),
+                        ],
+                      ),
+                      SizedBox(width: 10),
+                      Row(
+                        children: [
+                          Icon(Icons.bed, color: Color.fromRGBO(26, 147, 192, 1)),
+                          SizedBox(width: 3),
+                          Text('${quartos.toString()}', style: TextStyle(color: Colors.grey)),
+                        ],
+                      ),
+                      SizedBox(width: 10),
+                      Row(
+                        children: [
+                          Icon(Icons.square_foot, color: Color.fromRGBO(26, 147, 192, 1)),
+                          SizedBox(width: 3),
+                          Text('${metrosQuadrados.toString()}m²', style: TextStyle(color: Colors.grey)),
+                        ]
+                      )
+                      ],
+                    ),
                   ],
                 ),
               ],

@@ -22,10 +22,18 @@ class _ImageUploadWidgetState extends State<ImageUploadWidget> {
   final ImagePicker _picker = ImagePicker();
   bool _isPickingImage = false;
 
+  /*
+    Verifica se uma seleção de imagem já está em andamento.
+    Actualiza o estado para indicar que a seleção está em andamento.
+    Tenta selecionar uma imagem da galeria e adiciona à lista de imagens se bem-sucedido.
+    Chama o callback para atualizar a lista de imagens selecionadas.
+    Exibe uma mensagem de erro em caso de exceção.
+    Actualiza o estado para indicar que a seleção terminou.
+  */
   Future<void> _getImage() async {
     if (_isPickingImage) return;
     setState(() {
-      _isPickingImage = true;
+      _isPickingImage = true; 
     });
 
     try {

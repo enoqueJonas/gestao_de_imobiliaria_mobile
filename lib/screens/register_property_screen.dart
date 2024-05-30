@@ -43,14 +43,14 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
     images: [],
   );
 
-  List<String> _propertyTypes = [
+  List<String> _tiposImoveis = [
     'Apartamento',
     'Geminada',
     'Vivenda',
     'Moradia',
     'Quinta'
   ];
-  List<String> _provinces = [
+  List<String> _provincias = [
     'Maputo',
     'Gaza',
     'Inhambane',
@@ -62,42 +62,54 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
     'Niassa',
     'Cabo Delgado'
   ];
-  List<String> _facilities = ['Wi-Fi', 'Piscina', 'Academia', 'Estacionamento'];
-  List<String> _proximities = [
-    'Supermercado',
+  List<String> _facilidades = [
+    'Wi-Fi', 
+    'Piscina',  
+    'Estacionamento', 
+    'CCTV', 
+    'Elevador', 
+    'Guarda', 
+    'Termno acumulador'
+  ];
+  List<String> _proximidades = [
+    'Centros religiosos'
+    'Escolas públicas',
+    'Escolas privadas',
+    'Esquadra da polica',
+    'Ginasio',
+    'Jardim',
     'Hospital',
-    'Transporte Público',
-    'Escola'
+    'Restuarante e Bar'
+    'Paragem de autocarro',
+    'Supermercado',
   ];
 
+  /*
+    Verificar se o formulário é válido e guardar os dados do formulário.
+    Definir o ID do imóvel com o UID do user actual.
+    Faz o upload das imagens para o Firebase Storage e retornar os URLs das imagens.
+    Actualizar o objeto _imovel com os URLs das imagens.
+    Registar os dados do imóvel no Firebase Firestore.
+    Exib uma mensagem de sucesso e navega parar a tela principal.
+    Em caso de exceção do Firebase, exibir uma mensagem de erro.
+  */
   Future<void> _registerProperty() async {
     try {
       final User? user = FirebaseAuth.instance.currentUser;
-      /*setState(() {
-        _isUploading = true; // Set to true when starting upload
-      });
-      */
-
+    
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        
         _imovel.id = user!.uid;
 
-        // Upload images to Firebase Storage and get image URLs
         List<String> imageUrls = await _uploadImagesToStorage();
 
-        // Update the property object with image URLs
         _imovel.images = imageUrls;
 
-        // Save the property in Firestore
         await FirebaseFirestore.instance
             .collection('user_imoveis')
             .add(_imovel.toJson());
-        /*
-        setState(() {
-          _isUploading = false; // Set back to false when upload is complete
-        });
-        */
-
+      
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Registado com sucesso!'),
@@ -119,21 +131,28 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
     }
   }
 
-  // Function to upload images to Firebase Storage
+  /*
+    Itera sobre a lista de arquivos de imagem e faz o upload de cada um para o Firebase Storage.
+    Retorna a lista de URLs das imagens armazenadas.
+  */
   Future<List<String>> _uploadImagesToStorage() async {
     List<String> imageUrls = [];
 
     for (XFile imageFile in _imageFileList!) {
-      // Upload imageFile to Firebase Storage and get the download URL
       String imageUrl = await _uploadImageToStorage(imageFile);
       imageUrls.add(imageUrl);
     }
     return imageUrls;
   }
 
+  /*
+    Converte o caminho do arquivo da imagem em um objceto File.
+    Gera um nome único para a imagem.
+    Faz o upload do arquivo de imagem para o Firebase Storage.
+    Retorna a URL da imagem armazenada
+  */
   Future<String> _uploadImageToStorage(XFile imageFile) async {
     File file = File(imageFile.path);
-    // Upload imageFile to Firebase Storage and return the download URL
     String generateImageName = const Uuid().v4();
     final storageRef = FirebaseStorage.instance
         .ref()
@@ -142,7 +161,7 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
     await storageRef.putFile(file);
 
     final imageUrl = storageRef.getDownloadURL();
-    return imageUrl; // Placeholder URL
+    return imageUrl; 
   }
 
   @override
@@ -151,8 +170,7 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
         appBar: AppBar(
           title: Text('Adicionar Imóvel'),
         ),
-        body: Stack(
-          children: [
+        body: 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Form(
@@ -161,7 +179,7 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
                   children: [
                     DropdownButtonCombBox(
                       typeValue: 'Tipo de Propriedade',
-                      values: _propertyTypes,
+                      values: _tiposImoveis,
                       selectedValue: _imovel.tipo,
                       onChanged: (value) => setState(() {
                         _imovel.tipo = value!;
@@ -177,7 +195,7 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
                     const SizedBox(height: 10),
                     DropdownButtonCombBox(
                       typeValue: 'Provincia',
-                      values: _provinces,
+                      values: _provincias,
                       selectedValue: _imovel.provincia,
                       onChanged: (value) => setState(() {
                         _imovel.provincia = value!;
@@ -278,7 +296,7 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     MultiSelectDialogFieldWidget(
-                      items: _facilities,
+                      items: _facilidades,
                       title: 'Facilidades',
                       onConfirm: (values) {
                         setState(() {
@@ -293,7 +311,7 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     MultiSelectDialogFieldWidget(
-                      items: _proximities,
+                      items: _proximidades,
                       title: 'Proximidades',
                       onConfirm: (values) {
                         setState(() {
@@ -304,19 +322,19 @@ class _RegisterPropertyScreenState extends State<RegisterPropertyScreen> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _registerProperty,
-                      child: Text('Registrar Imóvel'),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 15,
+                        ),
+                        backgroundColor: const Color.fromRGBO(26, 147, 192, 1),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+                      child: Text('Registrar Imóvel', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 16)),
                     ),
                   ],
                 ),
               ),
             ),
-            /*
-            if (_isUploading) // Show the loading indicator
-              Center(
-                child: CircularProgressIndicator(),
-              ),
-            */
-          ],
-        ));
+           
+         );
   }
 }

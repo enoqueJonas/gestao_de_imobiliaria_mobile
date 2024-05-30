@@ -16,35 +16,35 @@ class PropertyListWidget extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
 
-        final properties = snapshot.data!.docs.map((doc) {
+        final imoveis = snapshot.data!.docs.map((doc) {
           final data = doc.data() as Map<String, dynamic>;
           return Imovel.fromJson(data);
         }).toList();
 
-        if (properties.isEmpty) {
-          return Center(child: Text('No properties found'));
+        if (imoveis.isEmpty) {
+          return Center(child: Text('Nenhum imoveil disponivel'));
         }
 
         return ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: properties.length,
+          itemCount: imoveis.length,
           itemBuilder: (context, index) {
-            final property = properties[index];
+            final imovel = imoveis[index];
             return PropertyCard(
-              imageUrl: property.images.isNotEmpty ? property.images[0] : '',
-              title: property.titulo,
-              location: property.localizacao,
-              price: property.preco,
-              beds: property.quartos,
-              bathrooms: property.casaBanhos,
-              squareMeters: property.metrosQuadrados,
-              mesesArrendamento: property.mesesArrendamento,
+              imageUrl: imovel.images.isNotEmpty ? imovel.images[0] : '',
+              titulo: imovel.titulo,
+              provincia: imovel.provincia,
+              localizacao: imovel.localizacao,
+              preco: imovel.preco,
+              quartos: imovel.quartos,
+              casasBanho: imovel.casaBanhos,
+              metrosQuadrados: imovel.metrosQuadrados,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PropertyDetailScreen(property: property),
+                    builder: (context) => PropertyDetailScreen(imovel: imovel),
                   ),
                 );
               },
