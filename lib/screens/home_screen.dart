@@ -5,6 +5,7 @@ import 'package:gestao_de_imobiliaria_mobile/screens/login_screen.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/widgets/category_widget.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/widgets/imove_item_widget.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/widgets/property_list_widget.dart';
+import 'package:gestao_de_imobiliaria_mobile/screens/widgets/show_snackbar_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -19,12 +20,7 @@ class HomeScreen extends StatelessWidget {
         ),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Faça login para adicionar imovel.'),
-        ),
-      );
-
+      showErrorSnackbar(context, 'Autentica a sua conta para adicionar imovel.');
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => const LoginScreen(),
@@ -128,7 +124,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: ListView(
+        body: Column(
           children: [
             //Pesquisar
             Padding(
@@ -171,8 +167,6 @@ class HomeScreen extends StatelessWidget {
 
             const CategoryWidget(),
 
-            //const ImovelItemWidget(),
-            //const ImovelItemWidget(),
             PropertyListWidget(),
           ],
         ));

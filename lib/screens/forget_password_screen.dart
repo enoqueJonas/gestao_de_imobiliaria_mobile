@@ -17,8 +17,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         padding: const EdgeInsets.all(50),
         child: ListView(
           children: [
-            Image.asset(
-              'images/forgot-password.png',
+            const Icon(
+              Icons.lock_outline, 
+              size: 100.0, 
+              color: Color.fromRGBO(26, 147, 192, 1), 
             ),
             const Text(
               'Redefina a sua palavra-passe',

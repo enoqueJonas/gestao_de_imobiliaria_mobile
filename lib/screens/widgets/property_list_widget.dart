@@ -13,7 +13,14 @@ class PropertyListWidget extends StatelessWidget {
       stream: FirebaseFirestore.instance.collection('user_imoveis').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator()
+              ]
+            )
+          );
         }
 
         final imoveis = snapshot.data!.docs.map((doc) {
@@ -21,8 +28,27 @@ class PropertyListWidget extends StatelessWidget {
           return Imovel.fromJson(data);
         }).toList();
 
-        if (imoveis.isEmpty) {
-          return Center(child: Text('Nenhum imoveil disponivel'));
+       if (imoveis.isEmpty) {
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.home,
+                  size: 50.0, 
+                  color: Colors.grey, 
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Nenhum imóvel disponível ...',
+                  style: TextStyle(
+                    fontSize: 16.0, 
+                    color: Colors.grey, 
+                  ),
+                ),
+              ],
+            ),
+          );
         }
 
         return ListView.builder(

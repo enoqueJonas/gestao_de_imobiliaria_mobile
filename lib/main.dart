@@ -20,9 +20,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Kaya App', debugShowCheckedModeBanner: false, home: const LoginScreen()
-        /*
-      StreamBuilder(
+    return MaterialApp(
+      title: 'Kaya App', 
+      debugShowCheckedModeBanner: false, 
+      home:const  StartScreen(),
+      
+      /*StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(), 
         builder: (context, AsyncSnapshot<User?> snapshot){ 
 
@@ -32,15 +35,16 @@ class App extends StatelessWidget {
           
           if(snapshot.hasData) {
             //Direcionar para home se o user tiver feito o login
-            return const HomeScreen();
+            return  HomeScreen();
           } else {
             //Direcionar para home O login se nao tiver feito o login
             return const LoginScreen();
           }
-        
-      }),
+       }
+      ),
       */
+      
 
-        );
+    );
   }
 }
