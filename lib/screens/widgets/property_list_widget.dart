@@ -1,5 +1,3 @@
-// property_list_widget.dart
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gestao_de_imobiliaria_mobile/screens/property_details_screen.dart';
@@ -7,19 +5,46 @@ import 'property_card_widget.dart';
 import 'package:gestao_de_imobiliaria_mobile/database/Models/imovel.dart';
 
 class PropertyListWidget extends StatelessWidget {
+  const PropertyListWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('user_imoveis').snapshots(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (!snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        if (snapshot.hasError) {
+          print('Erro ao carregar dados fo firestore ${snapshot.error}');
+          return const Center(
+            child: Text('Erro ao carregar imoveis. Por favor tente novamente.'),
+          );
+        }
+
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircularProgressIndicator()
-              ]
-            )
+                Icon(
+                  Icons.home,
+                  size: 50.0,
+                  color: Colors.grey,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Nenhum imóvel disponível ...',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
           );
         }
 
@@ -28,32 +53,7 @@ class PropertyListWidget extends StatelessWidget {
           return Imovel.fromJson(data);
         }).toList();
 
-       if (imoveis.isEmpty) {
-          return const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.home,
-                  size: 50.0, 
-                  color: Colors.grey, 
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Nenhum imóvel disponível ...',
-                  style: TextStyle(
-                    fontSize: 16.0, 
-                    color: Colors.grey, 
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
         return ListView.builder(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
           itemCount: imoveis.length,
           itemBuilder: (context, index) {
             final imovel = imoveis[index];
